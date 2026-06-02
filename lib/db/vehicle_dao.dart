@@ -13,7 +13,8 @@ class VehicleDao {
 
   Future<Vehicle?> getById(int id) async {
     final db = await DatabaseHelper.instance.database;
-    final rows = await db.query('vehicles', where: 'id = ?', whereArgs: [id]);
+    final rows =
+        await db.query('vehicles', where: 'id = ?', whereArgs: [id]);
     if (rows.isEmpty) return null;
     final services = await _getServices(id);
     return Vehicle.fromMap(rows.first, services: services);
@@ -37,7 +38,21 @@ class VehicleDao {
 
   Future<void> updateStatus(int id, String status) async {
     final db = await DatabaseHelper.instance.database;
-    await db.update('vehicles', {'status': status}, where: 'id = ?', whereArgs: [id]);
+    await db.update('vehicles', {'status': status},
+        where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> updateVehicle(Vehicle v) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.update('vehicles', v.toMap(),
+        where: 'id = ?', whereArgs: [v.id]);
+  }
+
+  Future<void> deleteAllServices(int vehicleId) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.delete('services',
+        where: 'vehicle_id = ?', whereArgs: [vehicleId]);
+    await _recalcBill(vehicleId);
   }
 
   Future<void> delete(int id) async {
@@ -52,6 +67,13 @@ class VehicleDao {
     return id;
   }
 
+  Future<void> updateService(Service s) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.update('services', s.toMap(),
+        where: 'id = ?', whereArgs: [s.id]);
+    await _recalcBill(s.vehicleId);
+  }
+
   Future<void> deleteService(int serviceId, int vehicleId) async {
     final db = await DatabaseHelper.instance.database;
     await db.delete('services', where: 'id = ?', whereArgs: [serviceId]);
@@ -60,8 +82,14 @@ class VehicleDao {
 
   Future<void> _recalcBill(int vehicleId) async {
     final db = await DatabaseHelper.instance.database;
+    // total = SUM((unit_price * quantity) - discount)
     await db.rawUpdate(
-      'UPDATE vehicles SET total_bill = (SELECT COALESCE(SUM(price),0) FROM services WHERE vehicle_id = ?) WHERE id = ?',
+      '''UPDATE vehicles
+         SET total_bill = (
+           SELECT COALESCE(SUM((unit_price * quantity) - discount), 0)
+           FROM services WHERE vehicle_id = ?
+         )
+         WHERE id = ?''',
       [vehicleId, vehicleId],
     );
   }

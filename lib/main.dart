@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'db/database_helper.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper.instance.database; // init DB on startup
+  await DatabaseHelper.instance.database;
   runApp(const AutoWorkshopApp());
 }
 
@@ -16,6 +17,16 @@ class AutoWorkshopApp extends StatelessWidget {
     return MaterialApp(
       title: 'Auto Workshop',
       debugShowCheckedModeBanner: false,
+      // Localization support (EN + AM)
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('am'),
+      ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF1D3557),
@@ -34,17 +45,22 @@ class AutoWorkshopApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF1D3557),
             foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10)),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         cardTheme: CardThemeData(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12)),
+          margin:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         ),
       ),
       home: const HomeScreen(),

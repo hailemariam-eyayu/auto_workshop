@@ -5,11 +5,12 @@ import '../../models/vehicle.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/status_badge.dart';
 import '../../widgets/empty_state.dart';
-import 'add_vehicle_screen.dart';
+import '../../l10n/locale_provider.dart';
 import 'vehicle_detail_screen.dart';
 
 class VehiclesScreen extends StatefulWidget {
-  const VehiclesScreen({super.key});
+  final LocaleProvider? locale;
+  const VehiclesScreen({super.key, this.locale});
 
   @override
   State<VehiclesScreen> createState() => _VehiclesScreenState();
@@ -21,29 +22,39 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
   String _search = '';
   bool _loading = true;
   final _searchCtrl = TextEditingController();
+  late final LocaleProvider _locale;
 
   @override
-  void initState() { super.initState(); _load(); }
+  void initState() {
+    super.initState();
+    _locale = widget.locale ?? LocaleProvider();
+    _load();
+  }
 
   Future<void> _load() async {
     setState(() => _loading = true);
     final data = await VehicleDao.instance.getAll();
-    setState(() { _all = data; _loading = false; });
+    setState(() {
+      _all = data;
+      _loading = false;
+    });
   }
 
   List<Vehicle> get _filtered => _all.where((v) {
-    final matchFilter = _filter == 'All' || v.status == _filter;
-    final q = _search.toLowerCase();
-    final matchSearch = q.isEmpty ||
-        v.plate.toLowerCase().contains(q) ||
-        v.model.toLowerCase().contains(q);
-    return matchFilter && matchSearch;
-  }).toList();
+        final matchFilter =
+            _filter == _locale.s.all || v.status == _filter;
+        final q = _search.toLowerCase();
+        final matchSearch =
+            q.isEmpty || v.plate.toLowerCase().contains(q);
+        return matchFilter && matchSearch;
+      }).toList();
 
   @override
   Widget build(BuildContext context) {
-    final inProgress = _all.where((v) => v.status == 'In Progress').length;
-    final allStatuses = ['All', ...Vehicle.statuses];
+    final s = _locale.s;
+    final inProgress =
+        _all.where((v) => v.status == 'In Progress').length;
+    final allStatuses = [s.all, ...Vehicle.statuses];
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -51,86 +62,113 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Service & Billing',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-            Text('$inProgress in progress',
-                style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+            Text(s.serviceBilling,
+                style: const TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.w700)),
+            Text('$inProgress ${s.inProgress}',
+                style: const TextStyle(
+                    fontSize: 12, color: Color(0xFF94A3B8))),
           ],
         ),
-        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.refresh), onPressed: _load),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.accent,
         onPressed: () async {
-          await Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const AddVehicleScreen()));
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => VehicleDetailScreen(
+                      id: null, locale: _locale)));
           _load();
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: Column(
         children: [
-          // Search
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: TextField(
               controller: _searchCtrl,
               onChanged: (v) => setState(() => _search = v),
               decoration: InputDecoration(
-                hintText: 'Search plate or model...',
-                prefixIcon: const Icon(Icons.search, color: AppColors.textMuted),
+                hintText: s.searchPlate,
+                prefixIcon: const Icon(Icons.search,
+                    color: AppColors.textMuted),
                 suffixIcon: _search.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
-                        onPressed: () { _searchCtrl.clear(); setState(() => _search = ''); })
+                        onPressed: () {
+                          _searchCtrl.clear();
+                          setState(() => _search = '');
+                        })
                     : null,
-                filled: true, fillColor: Colors.white,
+                filled: true,
+                fillColor: Colors.white,
               ),
             ),
           ),
-          // Filter chips (horizontal scroll)
           SizedBox(
             height: 48,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              children: allStatuses.map((s) => Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: FilterChip(
-                  label: Text(s, style: const TextStyle(fontSize: 12)),
-                  selected: _filter == s,
-                  onSelected: (_) => setState(() => _filter = s),
-                  selectedColor: AppColors.primary,
-                  labelStyle: TextStyle(
-                    color: _filter == s ? Colors.white : AppColors.textMuted,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  showCheckmark: false,
-                  backgroundColor: Colors.white,
-                  side: BorderSide(color: _filter == s ? AppColors.primary : AppColors.border),
-                ),
-              )).toList(),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16, vertical: 8),
+              children: allStatuses
+                  .map((st) => Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: FilterChip(
+                          label: Text(st,
+                              style:
+                                  const TextStyle(fontSize: 12)),
+                          selected: _filter == st,
+                          onSelected: (_) =>
+                              setState(() => _filter = st),
+                          selectedColor: AppColors.primary,
+                          labelStyle: TextStyle(
+                            color: _filter == st
+                                ? Colors.white
+                                : AppColors.textMuted,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          showCheckmark: false,
+                          backgroundColor: Colors.white,
+                          side: BorderSide(
+                              color: _filter == st
+                                  ? AppColors.primary
+                                  : AppColors.border),
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
-          // List
           Expanded(
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _filtered.isEmpty
-                    ? const EmptyState(
+                    ? EmptyState(
                         icon: Icons.directions_car_outlined,
-                        title: 'No vehicles',
-                        subtitle: 'Tap + to add a vehicle')
+                        title: s.noVehicles,
+                        subtitle: s.noVehiclesHint)
                     : RefreshIndicator(
                         onRefresh: _load,
                         child: ListView.builder(
-                          padding: const EdgeInsets.only(bottom: 80),
+                          padding:
+                              const EdgeInsets.only(bottom: 80),
                           itemCount: _filtered.length,
                           itemBuilder: (_, i) => _VehicleCard(
                             vehicle: _filtered[i],
                             onTap: () async {
-                              await Navigator.push(context, MaterialPageRoute(
-                                  builder: (_) => VehicleDetailScreen(id: _filtered[i].id!)));
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          VehicleDetailScreen(
+                                              id: _filtered[i].id,
+                                              locale: _locale)));
                               _load();
                             },
                           ),
@@ -146,12 +184,16 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
 class _VehicleCard extends StatelessWidget {
   final Vehicle vehicle;
   final VoidCallback onTap;
-  const _VehicleCard({required this.vehicle, required this.onTap});
+  const _VehicleCard(
+      {required this.vehicle, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final dt = DateTime.tryParse(vehicle.entryDate);
-    final dateStr = dt != null ? DateFormat('MMM d, y').format(dt) : vehicle.entryDate.substring(0, 10);
+    final dateStr = dt != null
+        ? DateFormat('MMM d, y').format(dt)
+        : vehicle.entryDate.substring(0, 10);
+    final fmt = NumberFormat('#,##0.##');
 
     return Card(
       child: InkWell(
@@ -165,35 +207,44 @@ class _VehicleCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 5),
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(vehicle.plate,
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800,
-                            color: Colors.white, letterSpacing: 1.5)),
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            letterSpacing: 1.5)),
                   ),
                   const Spacer(),
                   StatusBadge(vehicle.status),
                 ],
               ),
-              const SizedBox(height: 8),
-              Text(vehicle.model,
-                  style: const TextStyle(fontSize: 14, color: AppColors.textMuted)),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
                 children: [
                   Row(children: [
-                    const Icon(Icons.calendar_today_outlined, size: 13, color: AppColors.textMuted),
+                    const Icon(Icons.calendar_today_outlined,
+                        size: 13, color: AppColors.textMuted),
                     const SizedBox(width: 4),
                     Text(dateStr,
-                        style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textMuted)),
                   ]),
-                  Text('ETB ${NumberFormat('#,##0').format(vehicle.totalBill)}',
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700,
-                          color: AppColors.accent)),
+                  Text(
+                    'ETB ${fmt.format(vehicle.totalBill)}',
+                    style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.accent),
+                  ),
                 ],
               ),
             ],
