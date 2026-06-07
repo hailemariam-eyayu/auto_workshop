@@ -32,6 +32,7 @@ class AppStrings {
   static const actions = 'Actions';
   static const close = 'Close';
   static const returnItems = 'Return Items';
+  static const returnAll = 'Return All';
   static const addItem = 'Add Item';
   static const newItem = 'New Item';
   static const selectEmployee = 'Select Employee';
@@ -146,6 +147,19 @@ class AppStrings {
   static const searchPlate = 'Search plate number...';
   static const inProgress = 'in progress';
   static const itemCount = 'item(s)';
+
+  // Notes
+  static const notes = 'Notes';
+  static const notesDesc = 'Write and manage your notes';
+  static const addNote = 'Add Note';
+  static const editNote = 'Edit Note';
+  static const noteName = 'Note Title';
+  static const noteContent = 'Note Content';
+  static const noteContentHint = 'Write your note here...';
+  static const noNotes = 'No notes yet';
+  static const noNotesHint = 'Tap + to add a note';
+  static const deleteNote = 'Delete Note';
+  static const deleteNoteConfirm = 'Delete this note?';
 
   // Materials
   static const materials = 'Materials';

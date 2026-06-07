@@ -39,6 +39,30 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
     super.dispose();
   }
 
+  Future<void> _returnAllBorrows() async {
+    if (_borrows.isEmpty) return;
+    final s = widget.locale.s;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(s.returnAll),
+        content: Text('${s.returnAll}?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(s.cancel)),
+          ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(s.returnAll)),
+        ],
+      ),
+    );
+    if (ok == true) {
+      await BorrowDao.instance.returnAllForEmployee(widget.employee.id!);
+      _load();
+    }
+  }
+
   Future<void> _load() async {
     setState(() => _loading = true);
     final borrows =
@@ -235,6 +259,11 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.restore_from_trash_outlined),
+            tooltip: s.returnAll,
+            onPressed: _borrows.isEmpty ? null : _returnAllBorrows,
+          ),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: s.borrowEquipment,

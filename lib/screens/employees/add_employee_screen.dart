@@ -18,6 +18,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameCtrl;
   late final TextEditingController _phoneCtrl;
+  late final TextEditingController _notesCtrl;
   bool _saving = false;
 
   bool get _isEdit => widget.employee != null;
@@ -29,12 +30,15 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
         TextEditingController(text: widget.employee?.name ?? '');
     _phoneCtrl =
         TextEditingController(text: widget.employee?.phone ?? '');
+    _notesCtrl =
+        TextEditingController(text: widget.employee?.notes ?? '');
   }
 
   @override
   void dispose() {
     _nameCtrl.dispose();
     _phoneCtrl.dispose();
+    _notesCtrl.dispose();
     super.dispose();
   }
 
@@ -43,16 +47,19 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
     setState(() => _saving = true);
 
     final phone = _phoneCtrl.text.trim();
+    final notes = _notesCtrl.text.trim();
     if (_isEdit) {
       await EmployeeDao.instance.update(widget.employee!.copyWith(
         name: _nameCtrl.text.trim(),
         phone: phone.isEmpty ? null : phone,
+        notes: notes.isEmpty ? null : notes,
       ));
     } else {
       await EmployeeDao.instance.insert(Employee(
         name: _nameCtrl.text.trim(),
         phone: phone.isEmpty ? null : phone,
         entryDate: DateTime.now().toIso8601String(),
+        notes: notes.isEmpty ? null : notes,
       ));
     }
     if (mounted) Navigator.pop(context);
@@ -130,6 +137,24 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 filled: true,
                 fillColor: Colors.white,
                 prefixIcon: const Icon(Icons.phone_outlined),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Notes
+            Text(s.addNotes,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700, fontSize: 13)),
+            const SizedBox(height: 6),
+            TextFormField(
+              controller: _notesCtrl,
+              minLines: 3,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: s.notesForService,
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.note_outlined),
               ),
             ),
             const SizedBox(height: 32),

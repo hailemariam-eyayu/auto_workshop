@@ -21,7 +21,6 @@ class AddMaterialScreen extends StatefulWidget {
 class _AddMaterialScreenState extends State<AddMaterialScreen> {
   late TextEditingController _nameCtrl;
   late TextEditingController _categoryCtrl;
-  late TextEditingController _quantityCtrl;
   late TextEditingController _descriptionCtrl;
   String _selectedUnit = 'piece';
   bool _saving = false;
@@ -45,8 +44,6 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
     _nameCtrl = TextEditingController(text: widget.material?.name ?? '');
     _categoryCtrl = TextEditingController(
         text: widget.material?.category ?? '');
-    _quantityCtrl = TextEditingController(
-        text: widget.material?.quantity.toString() ?? '0');
     _descriptionCtrl = TextEditingController(
         text: widget.material?.description ?? '');
     _selectedUnit = widget.material?.unit ?? 'piece';
@@ -65,7 +62,7 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
     setState(() => _saving = true);
 
     try {
-      final quantity = double.tryParse(_quantityCtrl.text) ?? 0;
+      final quantity = widget.material?.quantity ?? 0;
 
       if (widget.material == null) {
         // Create new material
@@ -203,27 +200,6 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Quantity
-              Text(
-                s.materialStock,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _quantityCtrl,
-                keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true),
-                decoration: InputDecoration(
-                  hintText: '0',
-                  filled: true,
-                  fillColor: Colors.white,
-                  suffixText: _selectedUnit,
-                ),
-              ),
-              const SizedBox(height: 16),
-
               // Description
               Text(
                 s.materialDescription,
@@ -265,7 +241,6 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
   void dispose() {
     _nameCtrl.dispose();
     _categoryCtrl.dispose();
-    _quantityCtrl.dispose();
     _descriptionCtrl.dispose();
     super.dispose();
   }

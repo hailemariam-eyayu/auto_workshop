@@ -95,7 +95,7 @@ class DatabaseHelper {
     final path = join(dbPath, fileName);
     return await openDatabase(
       path,
-      version: 2,
+      version: 4,
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
@@ -116,6 +116,25 @@ class DatabaseHelper {
       // Seed the new equipment data
       await _seedEquipment(db);
     }
+    if (oldVersion < 3) {
+      try {
+        await db.execute('ALTER TABLE employees ADD COLUMN notes TEXT');
+      } catch (_) {}
+    }
+    if (oldVersion < 4) {
+      // Create notes table
+      try {
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS notes (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            name       TEXT    NOT NULL DEFAULT '',
+            content    TEXT    NOT NULL,
+            created_at TEXT    NOT NULL,
+            updated_at TEXT    NOT NULL
+          )
+        ''');
+      } catch (_) {}
+    }
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -125,7 +144,8 @@ class DatabaseHelper {
         id         INTEGER PRIMARY KEY AUTOINCREMENT,
         name       TEXT    NOT NULL,
         phone      TEXT,
-        entry_date TEXT    NOT NULL
+        entry_date TEXT    NOT NULL,
+        notes      TEXT
       )
     ''');
 
@@ -203,5 +223,16 @@ class DatabaseHelper {
 
     // Seed equipment on fresh install
     await _seedEquipment(db);
+
+    // Notes
+    await db.execute('''
+      CREATE TABLE notes (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        name       TEXT    NOT NULL DEFAULT '',
+        content    TEXT    NOT NULL,
+        created_at TEXT    NOT NULL,
+        updated_at TEXT    NOT NULL
+      )
+    ''');
   }
 }

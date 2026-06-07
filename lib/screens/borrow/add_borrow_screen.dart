@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../db/borrow_dao.dart';
 import '../../db/employee_dao.dart';
 import '../../db/item_dao.dart';
+import '../../db/material_dao.dart';
 import '../../models/employee.dart';
 import '../../models/item.dart';
 import '../../theme/app_colors.dart';
@@ -45,6 +46,15 @@ class _AddBorrowScreenState extends State<AddBorrowScreen> {
 
   Future<void> _load() async {
     final employees = await EmployeeDao.instance.getAll();
+    final materials = await MaterialDao.instance.getAll();
+
+    for (final material in materials) {
+      await ItemDao.instance.insertOrGet(
+        material.name,
+        category: material.category,
+      );
+    }
+
     final grouped = await ItemDao.instance.getGrouped();
     setState(() {
       _employees = employees;

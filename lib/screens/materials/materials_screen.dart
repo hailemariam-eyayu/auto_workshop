@@ -46,16 +46,6 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
         .toList();
   }
 
-  Future<void> _incrementQuantity(WorkshopMaterial material) async {
-    await MaterialDao.instance.incrementQuantity(material.id!, 1);
-    _load();
-  }
-
-  Future<void> _decrementQuantity(WorkshopMaterial material) async {
-    await MaterialDao.instance.decrementQuantity(material.id!, 1);
-    _load();
-  }
-
   Future<void> _delete(WorkshopMaterial material) async {
     final s = widget.locale.s;
     final ok = await showDialog<bool>(
@@ -158,10 +148,6 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                             return _MaterialTile(
                               locale: widget.locale,
                               material: material,
-                              onIncrement: () =>
-                                  _incrementQuantity(material),
-                              onDecrement: () =>
-                                  _decrementQuantity(material),
                               onEdit: () async {
                                 await Navigator.push(
                                     context,
@@ -193,16 +179,12 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
 class _MaterialTile extends StatelessWidget {
   final LocaleProvider locale;
   final WorkshopMaterial material;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const _MaterialTile({
     required this.locale,
     required this.material,
-    required this.onIncrement,
-    required this.onDecrement,
     required this.onEdit,
     required this.onDelete,
   });
@@ -263,63 +245,6 @@ class _MaterialTile extends StatelessWidget {
                               style: const TextStyle(color: Colors.red)),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            // Quantity controls and display
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Quantity display
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        '${material.quantity}',
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primary),
-                      ),
-                      Text(
-                        material.unit,
-                        style: const TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textMuted,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                // Increment/Decrement buttons
-                Row(
-                  children: [
-                    // Decrement button
-                    IconButton(
-                      onPressed:
-                          material.quantity > 0 ? onDecrement : null,
-                      icon: const Icon(Icons.remove_circle_outline),
-                      color: material.quantity > 0
-                          ? AppColors.primary
-                          : Colors.grey,
-                      tooltip: 'Decrease',
-                    ),
-                    const SizedBox(width: 8),
-                    // Increment button
-                    IconButton(
-                      onPressed: onIncrement,
-                      icon: const Icon(Icons.add_circle_outline),
-                      color: AppColors.accent,
-                      tooltip: 'Increase',
                     ),
                   ],
                 ),

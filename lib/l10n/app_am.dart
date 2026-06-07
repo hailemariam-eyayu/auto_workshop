@@ -31,6 +31,7 @@ class AppStringsAm {
   static const actions = 'ድርጊቶች';
   static const close = 'ዝጋ';
   static const returnItems = 'እቃ መልስ';
+  static const returnAll = 'ሁሉን እቃ ማስመለስ';
   static const addItem = 'እቃ ጨምር';
   static const newItem = 'አዲስ እቃ';
   static const selectEmployee = 'ሰራተኛ ምረጥ';
@@ -162,4 +163,17 @@ class AppStringsAm {
   static const materialUpdated = 'ቁሳቁስ በተሳካ ሁኔታ ተዘምኗል';
   static const deleteMaterial = 'ቁሳቁስ ሰርዝ';
   static const deleteMaterialConfirm = 'ይህን ቁሳቁስ ከካታሎጉ ያስወግዱ?';
+
+  // Notes
+  static const notes = 'ማስታወሻ';
+  static const notesDesc = 'ማስታወሻዎችዎን ይፃፉ እና ያስተዳድሩ';
+  static const addNote = 'ማስታወሻ ጨምር';
+  static const editNote = 'ማስታወሻ አርትዕ';
+  static const noteName = 'የማስታወሻ ርዕስ';
+  static const noteContent = 'የማስታወሻ ይዘት';
+  static const noteContentHint = 'ማስታወሻዎን እዚህ ይፃፉ...';
+  static const noNotes = 'ምንም ማስታወሻ የለም';
+  static const noNotesHint = '+ ተጭነው ማስታወሻ ይጨምሩ';
+  static const deleteNote = 'ማስታወሻ ሰርዝ';
+  static const deleteNoteConfirm = 'ይህን ማስታወሻ ይሰርዙ?';
 }

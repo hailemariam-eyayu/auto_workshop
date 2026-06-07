@@ -107,6 +107,30 @@ class BorrowDao {
     });
   }
 
+  Future<void> returnAllForEmployee(int employeeId) async {
+    final db = await DatabaseHelper.instance.database;
+    final now = DateTime.now().toIso8601String();
+    final rows = await db.query('borrows',
+        where: 'employee_id = ?', whereArgs: [employeeId]);
+
+    if (rows.isEmpty) return;
+
+    final batch = db.batch();
+    for (final row in rows) {
+      final itemId = row['item_id'] as int;
+      final quantity = row['quantity'] as int;
+      batch.insert('borrow_history', {
+        'employee_id': employeeId,
+        'item_id': itemId,
+        'quantity': quantity,
+        'action': 'returned',
+        'timestamp': now,
+      });
+    }
+    batch.delete('borrows', where: 'employee_id = ?', whereArgs: [employeeId]);
+    await batch.commit(noResult: true);
+  }
+
   /// Update the quantity of an existing borrow directly (for edit mode).
   Future<void> updateQuantity(int borrowId, int newQty) async {
     final db = await DatabaseHelper.instance.database;

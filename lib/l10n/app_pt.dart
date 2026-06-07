@@ -32,6 +32,7 @@ class AppStringsPt {
   static const actions = 'Ações';
   static const close = 'Fechar';
   static const returnItems = 'Devolver Itens';
+  static const returnAll = 'Devolver Todos';
   static const addItem = 'Adicionar Item';
   static const newItem = 'Novo Item';
   static const selectEmployee = 'Selecionar Funcionário';
@@ -102,7 +103,7 @@ class AppStringsPt {
   static const itemAlreadyAdded = 'Item já adicionado';
   static const mustBePositive = 'Deve ser pelo menos 1';
   static const borrowedItems = 'Itens Emprestados';
-  
+
   // Materials
   static const materials = 'Materiais';
   static const materialsManagement = 'Gerenciamento de Materiais';
@@ -119,6 +120,19 @@ class AppStringsPt {
   static const materialUpdated = 'Material atualizado com sucesso';
   static const deleteMaterial = 'Excluir Material';
   static const deleteMaterialConfirm = 'Remover este material do catálogo?';
+
+  // Notes
+  static const notes = 'Notas';
+  static const notesDesc = 'Escreva e gerencie suas notas';
+  static const addNote = 'Adicionar Nota';
+  static const editNote = 'Editar Nota';
+  static const noteName = 'Título da Nota';
+  static const noteContent = 'Conteúdo da Nota';
+  static const noteContentHint = 'Escreva sua nota aqui...';
+  static const noNotes = 'Sem notas ainda';
+  static const noNotesHint = 'Toque + para adicionar uma nota';
+  static const deleteNote = 'Excluir Nota';
+  static const deleteNoteConfirm = 'Excluir esta nota?';
 
   // ── About ──────────────────────────────────────────────────────────────────
   static const about = 'Sobre';

@@ -7,6 +7,7 @@ import 'borrow/borrow_screen.dart';
 import 'analysis/analysis_screen.dart';
 import 'materials/materials_screen.dart';
 import 'vehicles/vehicles_screen.dart';
+import 'notes/notes_screen.dart';
 import 'about_screen.dart';
 import 'backup_screen.dart';
 
@@ -33,6 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (user != null) {
       await _backup.backup();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -162,6 +168,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => EmployeesScreen(
+                                        locale: _locale))),
+                          ),
+                          const SizedBox(height: 10),
+
+                          _ModuleCard(
+                            icon: Icons.note_alt_rounded,
+                            iconBg: const Color(0xFFFFEDD5),
+                            iconColor: const Color(0xFFEA580C),
+                            borderColor: const Color(0xFFEA580C),
+                            title: s.notes,
+                            description: s.notesDesc,
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => NotesScreen(
                                         locale: _locale))),
                           ),
                           const SizedBox(height: 10),

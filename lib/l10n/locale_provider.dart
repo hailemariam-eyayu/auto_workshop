@@ -62,6 +62,7 @@ class _En {
   String get borrowed => AppStrings.borrowed;
   String get close => AppStrings.close;
   String get returnItems => AppStrings.returnItems;
+  String get returnAll => AppStrings.returnAll;
   String get addItem => AppStrings.addItem;
   String get newItem => AppStrings.newItem;
   String get selectEmployee => AppStrings.selectEmployee;
@@ -186,6 +187,18 @@ class _En {
   String get materialUpdated => AppStrings.materialUpdated;
   String get deleteMaterial => AppStrings.deleteMaterial;
   String get deleteMaterialConfirm => AppStrings.deleteMaterialConfirm;
+  // Notes
+  String get notes => AppStrings.notes;
+  String get notesDesc => AppStrings.notesDesc;
+  String get addNote => AppStrings.addNote;
+  String get editNote => AppStrings.editNote;
+  String get noteName => AppStrings.noteName;
+  String get noteContent => AppStrings.noteContent;
+  String get noteContentHint => AppStrings.noteContentHint;
+  String get noNotes => AppStrings.noNotes;
+  String get noNotesHint => AppStrings.noNotesHint;
+  String get deleteNote => AppStrings.deleteNote;
+  String get deleteNoteConfirm => AppStrings.deleteNoteConfirm;
 }
 
 // ── Amharic ───────────────────────────────────────────────────────────────────
@@ -220,6 +233,7 @@ class _Am {
   String get borrowed => AppStringsAm.borrowed;
   String get close => AppStringsAm.close;
   String get returnItems => AppStringsAm.returnItems;
+  String get returnAll => AppStringsAm.returnAll;
   String get addItem => AppStringsAm.addItem;
   String get newItem => AppStringsAm.newItem;
   String get selectEmployee => AppStringsAm.selectEmployee;
@@ -344,6 +358,18 @@ class _Am {
   String get materialUpdated => AppStringsAm.materialUpdated;
   String get deleteMaterial => AppStringsAm.deleteMaterial;
   String get deleteMaterialConfirm => AppStringsAm.deleteMaterialConfirm;
+  // Notes
+  String get notes => AppStringsAm.notes;
+  String get notesDesc => AppStringsAm.notesDesc;
+  String get addNote => AppStringsAm.addNote;
+  String get editNote => AppStringsAm.editNote;
+  String get noteName => AppStringsAm.noteName;
+  String get noteContent => AppStringsAm.noteContent;
+  String get noteContentHint => AppStringsAm.noteContentHint;
+  String get noNotes => AppStringsAm.noNotes;
+  String get noNotesHint => AppStringsAm.noNotesHint;
+  String get deleteNote => AppStringsAm.deleteNote;
+  String get deleteNoteConfirm => AppStringsAm.deleteNoteConfirm;
 }
 
 // ── Portuguese ────────────────────────────────────────────────────────────────
@@ -379,6 +405,7 @@ class _Pt {
   String get actions => AppStringsPt.actions;
   String get close => AppStringsPt.close;
   String get returnItems => AppStringsPt.returnItems;
+  String get returnAll => AppStringsPt.returnAll;
   String get addItem => AppStringsPt.addItem;
   String get newItem => AppStringsPt.newItem;
   String get selectEmployee => AppStringsPt.selectEmployee;
@@ -503,4 +530,16 @@ class _Pt {
   String get searchPlate => AppStringsPt.searchPlate;
   String get inProgress => AppStringsPt.inProgress;
   String get itemCount => AppStringsPt.itemCount;
+  // Notes
+  String get notes => AppStringsPt.notes;
+  String get notesDesc => AppStringsPt.notesDesc;
+  String get addNote => AppStringsPt.addNote;
+  String get editNote => AppStringsPt.editNote;
+  String get noteName => AppStringsPt.noteName;
+  String get noteContent => AppStringsPt.noteContent;
+  String get noteContentHint => AppStringsPt.noteContentHint;
+  String get noNotes => AppStringsPt.noNotes;
+  String get noNotesHint => AppStringsPt.noNotesHint;
+  String get deleteNote => AppStringsPt.deleteNote;
+  String get deleteNoteConfirm => AppStringsPt.deleteNoteConfirm;
 }

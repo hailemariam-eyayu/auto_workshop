@@ -29,14 +29,29 @@ class ItemDao {
   }
 
   /// Insert if not exists (by name), return the id either way.
-  Future<int> insertOrGet(String name) async {
+  Future<int> insertOrGet(String name, {String category = ''}) async {
     final db = await DatabaseHelper.instance.database;
+    final trimmedName = name.trim();
     final existing = await db.query('items',
-        where: 'LOWER(name) = LOWER(?)', whereArgs: [name.trim()]);
-    if (existing.isNotEmpty) return existing.first['id'] as int;
+        where: 'LOWER(name) = LOWER(?)', whereArgs: [trimmedName]);
+    if (existing.isNotEmpty) {
+      final row = existing.first;
+      final id = row['id'] as int;
+      final currentCategory = (row['category'] as String?) ?? '';
+      if (category.isNotEmpty && currentCategory.isEmpty) {
+        await db.update(
+          'items',
+          {'category': category},
+          where: 'id = ?',
+          whereArgs: [id],
+        );
+      }
+      return id;
+    }
+
     return db.insert('items', {
-      'name': name.trim(),
-      'category': '',
+      'name': trimmedName,
+      'category': category,
       'is_parent': 0,
     });
   }
