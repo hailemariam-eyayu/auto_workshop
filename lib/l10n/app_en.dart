@@ -88,6 +88,7 @@ class AppStrings {
   static const language = 'Language';
   static const english = 'English';
   static const amharic = 'አማርኛ';
+  static const portuguese = 'Português';
   static const addNewItem = '+ Add New Item';
   static const enterItemName = 'Enter item name';
   static const enterEmployeeName = 'Enter employee name';
@@ -145,4 +146,21 @@ class AppStrings {
   static const searchPlate = 'Search plate number...';
   static const inProgress = 'in progress';
   static const itemCount = 'item(s)';
+
+  // Materials
+  static const materials = 'Materials';
+  static const materialsManagement = 'Materials Management';
+  static const registerMaterial = 'Register Material';
+  static const editMaterial = 'Edit Material';
+  static const materialName = 'Material Name';
+  static const materialCategory = 'Category';
+  static const materialUnit = 'Unit';
+  static const materialStock = 'Stock';
+  static const materialDescription = 'Description';
+  static const noMaterials = 'No materials';
+  static const noMaterialsHint = 'Tap + to register a material';
+  static const materialRegistered = 'Material registered successfully';
+  static const materialUpdated = 'Material updated successfully';
+  static const deleteMaterial = 'Delete Material';
+  static const deleteMaterialConfirm = 'Remove this material from the catalog?';
 }

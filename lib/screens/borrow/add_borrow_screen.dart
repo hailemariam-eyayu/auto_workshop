@@ -392,27 +392,23 @@ class _CategorySection extends StatelessWidget {
                     isDestructive: true,
                   ),
                 ] else
-                  // Single item: just a CLICK/UNCLICK button
                   _HeaderBtn(
-                    label: selected.containsKey(items.first.id)
-                        ? 'UNCLICK'
-                        : 'CLICK',
-                    active: selected.containsKey(items.first.id),
-                    onTap: () => onToggle(items.first),
+                    label: anySelected ? 'CLEAR' : 'SELECT',
+                    active: anySelected,
+                    onTap: anySelected ? onClearAll : onSelectAll,
                   ),
               ],
             ),
           ),
 
-          // ── Size chips (only for multi-size groups) ──────────────
-          if (!isSingleItem)
-            Padding(
-              padding:
-                  const EdgeInsets.fromLTRB(10, 0, 10, 10),
-              child: Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: items.map((item) {
+          // ── Size chips ─────────────────────────────────────────────
+          Padding(
+            padding:
+                const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            child: Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: items.map((item) {
                   final sel = selected[item.id];
                   final isSelected = sel != null;
                   // Extract size label (e.g. "ስቴላ 4mm" → "4mm")

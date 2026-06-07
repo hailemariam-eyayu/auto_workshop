@@ -21,6 +21,7 @@ final _sizedGroups = {
   'ሜዞ': _sizes,
   'ጆደር': _sizes,
   'አለንኪ': _alenkiSizes,
+  'ፒንሳ': ['1', '2', '3'],
 };
 
 // Single-item groups (no size variants)
@@ -33,7 +34,6 @@ const _singleGroups = [
   'ማስረዘሚያ ቱቦ',
   'ማስረዘሚያ',
   'ካቤንግሊዝ',
-  'ፒንሳ',
   'መዶሻ',
   'ማሳ መዶሻ',
   'ማግኔት',
@@ -185,6 +185,19 @@ class DatabaseHelper {
         discount   REAL    NOT NULL DEFAULT 0,
         notes      TEXT,
         created_at TEXT    NOT NULL
+      )
+    ''');
+
+    // Materials/Inventory with quantity tracking
+    await db.execute('''
+      CREATE TABLE materials (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        name        TEXT    NOT NULL UNIQUE,
+        category    TEXT    NOT NULL DEFAULT '',
+        unit        TEXT    NOT NULL DEFAULT 'piece',
+        quantity    REAL    NOT NULL DEFAULT 0,
+        description TEXT,
+        created_at  TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
     ''');
 

@@ -19,27 +19,11 @@ void main() {
   const red = [0xE6, 0x39, 0x46, 0xFF];
   const white = [0xFF, 0xFF, 0xFF, 0xFF];
 
-  // Draw background: navy rounded square
+  // Draw background: red rounded square (full size, matches home screen header)
   final bgRadius = size * 0.22;
   for (var y = 0; y < size; y++) {
     for (var x = 0; x < size; x++) {
       if (_inRoundedRect(x, y, 0, 0, size, size, bgRadius)) {
-        pixels[y][x * 4] = navy[0];
-        pixels[y][x * 4 + 1] = navy[1];
-        pixels[y][x * 4 + 2] = navy[2];
-        pixels[y][x * 4 + 3] = navy[3];
-      }
-    }
-  }
-
-  // Draw inner red rounded square (72% of size, centered)
-  final innerSize = (size * 0.72).round();
-  final innerOffset = (size - innerSize) ~/ 2;
-  final innerRadius = innerSize * 0.25;
-  for (var y = 0; y < size; y++) {
-    for (var x = 0; x < size; x++) {
-      if (_inRoundedRect(x, y, innerOffset, innerOffset,
-          innerSize, innerSize, innerRadius)) {
         pixels[y][x * 4] = red[0];
         pixels[y][x * 4 + 1] = red[1];
         pixels[y][x * 4 + 2] = red[2];
@@ -47,6 +31,8 @@ void main() {
       }
     }
   }
+
+  // No inner square — white wrench directly on red
 
   // Draw white wrench (simplified geometric shape)
   // Wrench centered at (512,512), ~38% of icon size

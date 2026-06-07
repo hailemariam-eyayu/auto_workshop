@@ -5,6 +5,7 @@ import '../services/drive_backup_service.dart';
 import 'employees/employees_screen.dart';
 import 'borrow/borrow_screen.dart';
 import 'analysis/analysis_screen.dart';
+import 'materials/materials_screen.dart';
 import 'vehicles/vehicles_screen.dart';
 import 'about_screen.dart';
 import 'backup_screen.dart';
@@ -53,32 +54,49 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          // Language toggle
-                          GestureDetector(
-                            onTap: () => _locale.toggle(),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.language,
-                                      size: 14, color: Colors.white),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    _locale.isAmharic
-                                        ? 'English'
-                                        : 'አማርኛ',
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600),
+                          // Language selector
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<Locale>(
+                                dropdownColor: Colors.white,
+                                value: _locale.locale,
+                                icon: const Icon(Icons.language,
+                                    size: 14, color: Colors.white),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: const Locale('en'),
+                                    child: Text(s.english,
+                                        style: const TextStyle(
+                                            color: Colors.black)),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: const Locale('am'),
+                                    child: Text(s.amharic,
+                                        style: const TextStyle(
+                                            color: Colors.black)),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: const Locale('pt'),
+                                    child: Text(s.portuguese,
+                                        style: const TextStyle(
+                                            color: Colors.black)),
                                   ),
                                 ],
+                                onChanged: (locale) {
+                                  if (locale != null) {
+                                    _locale.setLocale(locale);
+                                  }
+                                },
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
@@ -174,6 +192,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => AnalysisScreen(
+                                        locale: _locale))),
+                          ),
+                          const SizedBox(height: 10),
+
+                          _ModuleCard(
+                            icon: Icons.inventory_2_rounded,
+                            iconBg: const Color(0xFFFEF08A),
+                            iconColor: const Color(0xFFCA8A04),
+                            borderColor: const Color(0xFFCA8A04),
+                            title: s.materials,
+                            description: s.materialsManagement,
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => MaterialsScreen(
                                         locale: _locale))),
                           ),
                           const SizedBox(height: 10),

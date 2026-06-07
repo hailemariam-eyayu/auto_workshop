@@ -1,10 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sqflite/sqflite.dart' show databaseFactory;
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart'
+    show databaseFactoryFfiWeb;
 import 'db/database_helper.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    databaseFactory = databaseFactoryFfiWeb;
+  }
   await DatabaseHelper.instance.database;
   runApp(const AutoWorkshopApp());
 }
@@ -26,6 +33,7 @@ class AutoWorkshopApp extends StatelessWidget {
       supportedLocales: const [
         Locale('en'),
         Locale('am'),
+        Locale('pt'),
       ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

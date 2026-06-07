@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'app_en.dart';
 import 'app_am.dart';
+import 'app_pt.dart';
 
 class LocaleProvider extends ChangeNotifier {
   Locale _locale = const Locale('en');
 
   Locale get locale => _locale;
   bool get isAmharic => _locale.languageCode == 'am';
+  bool get isPortuguese => _locale.languageCode == 'pt';
+  bool get isEnglish => _locale.languageCode == 'en';
 
   void toggle() {
-    _locale = isAmharic ? const Locale('en') : const Locale('am');
+    if (isEnglish) {
+      _locale = const Locale('am');
+    } else if (isAmharic) {
+      _locale = const Locale('pt');
+    } else {
+      _locale = const Locale('en');
+    }
     notifyListeners();
   }
 
@@ -18,7 +27,7 @@ class LocaleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  dynamic get s => isAmharic ? _Am() : _En();
+  dynamic get s => isAmharic ? _Am() : (isPortuguese ? _Pt() : _En());
 }
 
 // ── English ───────────────────────────────────────────────────────────────────
@@ -105,6 +114,7 @@ class _En {
   String get language => AppStrings.language;
   String get english => AppStrings.english;
   String get amharic => AppStrings.amharic;
+  String get portuguese => AppStrings.portuguese;
   String get addNewItem => AppStrings.addNewItem;
   String get enterItemName => AppStrings.enterItemName;
   String get enterEmployeeName => AppStrings.enterEmployeeName;
@@ -160,6 +170,22 @@ class _En {
   String get searchPlate => AppStrings.searchPlate;
   String get inProgress => AppStrings.inProgress;
   String get itemCount => AppStrings.itemCount;
+  // Materials
+  String get materials => AppStrings.materials;
+  String get materialsManagement => AppStrings.materialsManagement;
+  String get registerMaterial => AppStrings.registerMaterial;
+  String get editMaterial => AppStrings.editMaterial;
+  String get materialName => AppStrings.materialName;
+  String get materialCategory => AppStrings.materialCategory;
+  String get materialUnit => AppStrings.materialUnit;
+  String get materialStock => AppStrings.materialStock;
+  String get materialDescription => AppStrings.materialDescription;
+  String get noMaterials => AppStrings.noMaterials;
+  String get noMaterialsHint => AppStrings.noMaterialsHint;
+  String get materialRegistered => AppStrings.materialRegistered;
+  String get materialUpdated => AppStrings.materialUpdated;
+  String get deleteMaterial => AppStrings.deleteMaterial;
+  String get deleteMaterialConfirm => AppStrings.deleteMaterialConfirm;
 }
 
 // ── Amharic ───────────────────────────────────────────────────────────────────
@@ -246,6 +272,7 @@ class _Am {
   String get language => AppStringsAm.language;
   String get english => AppStringsAm.english;
   String get amharic => AppStringsAm.amharic;
+  String get portuguese => AppStringsAm.portuguese;
   String get addNewItem => AppStringsAm.addNewItem;
   String get enterItemName => AppStringsAm.enterItemName;
   String get enterEmployeeName => AppStringsAm.enterEmployeeName;
@@ -301,4 +328,179 @@ class _Am {
   String get searchPlate => AppStringsAm.searchPlate;
   String get inProgress => AppStringsAm.inProgress;
   String get itemCount => AppStringsAm.itemCount;
+  // Materials
+  String get materials => AppStringsAm.materials;
+  String get materialsManagement => AppStringsAm.materialsManagement;
+  String get registerMaterial => AppStringsAm.registerMaterial;
+  String get editMaterial => AppStringsAm.editMaterial;
+  String get materialName => AppStringsAm.materialName;
+  String get materialCategory => AppStringsAm.materialCategory;
+  String get materialUnit => AppStringsAm.materialUnit;
+  String get materialStock => AppStringsAm.materialStock;
+  String get materialDescription => AppStringsAm.materialDescription;
+  String get noMaterials => AppStringsAm.noMaterials;
+  String get noMaterialsHint => AppStringsAm.noMaterialsHint;
+  String get materialRegistered => AppStringsAm.materialRegistered;
+  String get materialUpdated => AppStringsAm.materialUpdated;
+  String get deleteMaterial => AppStringsAm.deleteMaterial;
+  String get deleteMaterialConfirm => AppStringsAm.deleteMaterialConfirm;
+}
+
+// ── Portuguese ────────────────────────────────────────────────────────────────
+class _Pt {
+  String get appName => AppStringsPt.appName;
+  String get save => AppStringsPt.save;
+  String get saving => AppStringsPt.saving;
+  String get cancel => AppStringsPt.cancel;
+  String get delete => AppStringsPt.delete;
+  String get edit => AppStringsPt.edit;
+  String get add => AppStringsPt.add;
+  String get confirm => AppStringsPt.confirm;
+  String get yes => AppStringsPt.yes;
+  String get no => AppStringsPt.no;
+  String get search => AppStringsPt.search;
+  String get loading => AppStringsPt.loading;
+  String get noData => AppStringsPt.noData;
+  String get optional => AppStringsPt.optional;
+  String get required => AppStringsPt.required;
+  String get history => AppStringsPt.history;
+  String get analysis => AppStringsPt.analysis;
+  String get all => AppStringsPt.all;
+  String get name => AppStringsPt.name;
+  String get phone => AppStringsPt.phone;
+  String get date => AppStringsPt.date;
+  String get quantity => AppStringsPt.quantity;
+  String get item => AppStringsPt.item;
+  String get items => AppStringsPt.items;
+  String get total => AppStringsPt.total;
+  String get current => AppStringsPt.current;
+  String get returned => AppStringsPt.returned;
+  String get borrowed => AppStringsPt.borrowed;
+  String get actions => AppStringsPt.actions;
+  String get close => AppStringsPt.close;
+  String get returnItems => AppStringsPt.returnItems;
+  String get addItem => AppStringsPt.addItem;
+  String get newItem => AppStringsPt.newItem;
+  String get selectEmployee => AppStringsPt.selectEmployee;
+  String get itemName => AppStringsPt.itemName;
+  String get borrowedQty => AppStringsPt.borrowedQty;
+  String get returnQty => AppStringsPt.returnQty;
+  String get noEmployees => AppStringsPt.noEmployees;
+  String get noEmployeesHint => AppStringsPt.noEmployeesHint;
+  String get noBorrows => AppStringsPt.noBorrows;
+  String get noBorrowsHint => AppStringsPt.noBorrowsHint;
+  String get noHistory => AppStringsPt.noHistory;
+  String get noHistoryHint => AppStringsPt.noHistoryHint;
+  String get noItems => AppStringsPt.noItems;
+  String get noItemsHint => AppStringsPt.noItemsHint;
+  String get deleteEmployee => AppStringsPt.deleteEmployee;
+  String get deleteEmployeeConfirm => AppStringsPt.deleteEmployeeConfirm;
+  String get deleteItem => AppStringsPt.deleteItem;
+  String get deleteItemConfirm => AppStringsPt.deleteItemConfirm;
+  String get deleteBorrow => AppStringsPt.deleteBorrow;
+  String get deleteBorrowConfirm => AppStringsPt.deleteBorrowConfirm;
+  String get registerEmployee => AppStringsPt.registerEmployee;
+  String get editEmployee => AppStringsPt.editEmployee;
+  String get employeeName => AppStringsPt.employeeName;
+  String get entryDate => AppStringsPt.entryDate;
+  String get borrowEquipment => AppStringsPt.borrowEquipment;
+  String get editBorrow => AppStringsPt.editBorrow;
+  String get currentlyBorrowed => AppStringsPt.currentlyBorrowed;
+  String get totalBorrowed => AppStringsPt.totalBorrowed;
+  String get totalReturned => AppStringsPt.totalReturned;
+  String get borrowHistory => AppStringsPt.borrowHistory;
+  String get employeeDetails => AppStringsPt.employeeDetails;
+  String get employees => AppStringsPt.employees;
+  String get equipment => AppStringsPt.equipment;
+  String get equipmentBorrow => AppStringsPt.equipmentBorrow;
+  String get itemCatalog => AppStringsPt.itemCatalog;
+  String get selectModule => AppStringsPt.selectModule;
+  String get toolInventory => AppStringsPt.toolInventory;
+  String get toolInventoryDesc => AppStringsPt.toolInventoryDesc;
+  String get serviceBilling => AppStringsPt.serviceBilling;
+  String get serviceBillingDesc => AppStringsPt.serviceBillingDesc;
+  String get version => AppStringsPt.version;
+  String get managementSystem => AppStringsPt.managementSystem;
+  String get partialReturn => AppStringsPt.partialReturn;
+  String get fullReturn => AppStringsPt.fullReturn;
+  String get returnAmount => AppStringsPt.returnAmount;
+  String get cannotExceedBorrowed => AppStringsPt.cannotExceedBorrowed;
+  String get borrowedOn => AppStringsPt.borrowedOn;
+  String get returnedOn => AppStringsPt.returnedOn;
+  String get action => AppStringsPt.action;
+  String get language => AppStringsPt.language;
+  String get english => AppStringsPt.english;
+  String get amharic => AppStringsPt.amharic;
+  String get portuguese => AppStringsPt.portuguese;
+  String get addNewItem => AppStringsPt.addNewItem;
+  String get enterItemName => AppStringsPt.enterItemName;
+  String get enterEmployeeName => AppStringsPt.enterEmployeeName;
+  String get enterPhone => AppStringsPt.enterPhone;
+  String get activeborrows => AppStringsPt.activeborrows;
+  String get registeredOn => AppStringsPt.registeredOn;
+  String get noActiveborrows => AppStringsPt.noActiveborrows;
+  String get itemAlreadyAdded => AppStringsPt.itemAlreadyAdded;
+  String get mustBePositive => AppStringsPt.mustBePositive;
+  String get borrowedItems => AppStringsPt.borrowedItems;
+  String get returnItem => AppStringsPt.returnItem;
+  String get qtyToReturn => AppStringsPt.qtyToReturn;
+  String get maxIs => AppStringsPt.maxIs;
+  // Materials
+  String get materials => AppStringsPt.materials;
+  String get materialsManagement => AppStringsPt.materialsManagement;
+  String get registerMaterial => AppStringsPt.registerMaterial;
+  String get editMaterial => AppStringsPt.editMaterial;
+  String get materialName => AppStringsPt.materialName;
+  String get materialCategory => AppStringsPt.materialCategory;
+  String get materialUnit => AppStringsPt.materialUnit;
+  String get materialStock => AppStringsPt.materialStock;
+  String get materialDescription => AppStringsPt.materialDescription;
+  String get noMaterials => AppStringsPt.noMaterials;
+  String get noMaterialsHint => AppStringsPt.noMaterialsHint;
+  String get materialRegistered => AppStringsPt.materialRegistered;
+  String get materialUpdated => AppStringsPt.materialUpdated;
+  String get deleteMaterial => AppStringsPt.deleteMaterial;
+  String get deleteMaterialConfirm => AppStringsPt.deleteMaterialConfirm;
+  // About
+  String get about => AppStringsPt.about;
+  String get aboutDesc => AppStringsPt.aboutDesc;
+  String get developedBy => AppStringsPt.developedBy;
+  String get appInfo => AppStringsPt.appInfo;
+  String get builtWith => AppStringsPt.builtWith;
+  String get database => AppStringsPt.database;
+  String get languages => AppStringsPt.languages;
+  String get platform => AppStringsPt.platform;
+  String get allRightsReserved => AppStringsPt.allRightsReserved;
+  String get versionFull => AppStringsPt.versionFull;
+  // Service & Billing
+  String get newServiceBill => AppStringsPt.newServiceBill;
+  String get vehiclePlateNumber => AppStringsPt.vehiclePlateNumber;
+  String get platePlaceholder => AppStringsPt.platePlaceholder;
+  String get status => AppStringsPt.status;
+  String get tapToChange => AppStringsPt.tapToChange;
+  String get updateStatus => AppStringsPt.updateStatus;
+  String get serviceItems => AppStringsPt.serviceItems;
+  String get serviceItem => AppStringsPt.serviceItem;
+  String get serviceName => AppStringsPt.serviceName;
+  String get serviceNameHint => AppStringsPt.serviceNameHint;
+  String get feePerItem => AppStringsPt.feePerItem;
+  String get number => AppStringsPt.number;
+  String get totalPerItem => AppStringsPt.totalPerItem;
+  String get discount => AppStringsPt.discount;
+  String get netTotal => AppStringsPt.netTotal;
+  String get addNotes => AppStringsPt.addNotes;
+  String get hideNotes => AppStringsPt.hideNotes;
+  String get notesForService => AppStringsPt.notesForService;
+  String get addAnotherService => AppStringsPt.addAnotherService;
+  String get totalBill => AppStringsPt.totalBill;
+  String get globalNotesHint => AppStringsPt.globalNotesHint;
+  String get plateRequired => AppStringsPt.plateRequired;
+  String get atLeastOneService => AppStringsPt.atLeastOneService;
+  String get deleteRecord => AppStringsPt.deleteRecord;
+  String get deleteRecordConfirm => AppStringsPt.deleteRecordConfirm;
+  String get noVehicles => AppStringsPt.noVehicles;
+  String get noVehiclesHint => AppStringsPt.noVehiclesHint;
+  String get searchPlate => AppStringsPt.searchPlate;
+  String get inProgress => AppStringsPt.inProgress;
+  String get itemCount => AppStringsPt.itemCount;
 }

@@ -87,6 +87,7 @@ class AppStringsAm {
   static const language = 'ቋንቋ';
   static const english = 'English';
   static const amharic = 'አማርኛ';
+  static const portuguese = 'ፖርቱጋልኛ';
   static const addNewItem = '+ አዲስ እቃ ጨምር';
   static const enterItemName = 'የእቃ ስም ያስገቡ';
   static const enterEmployeeName = 'የሰራተኛ ስም ያስገቡ';
@@ -144,4 +145,21 @@ class AppStringsAm {
   static const searchPlate = 'ሰሌዳ ቁጥር ፈልግ...';
   static const inProgress = 'በሂደት ላይ';
   static const itemCount = 'ዝርዝር(ዎች)';
+
+  // Materials
+  static const materials = 'ቁሳቁሶች';
+  static const materialsManagement = 'የቁሳቁስ ክልል ያስተዳድራ';
+  static const registerMaterial = 'ቁሳቁስ ምዝገባ';
+  static const editMaterial = 'ቁሳቁስ አርትዕ';
+  static const materialName = 'የቁሳቁስ ስም';
+  static const materialCategory = 'ምድብ';
+  static const materialUnit = 'ክፍል';
+  static const materialStock = 'ክምችት';
+  static const materialDescription = 'ግለጽታ';
+  static const noMaterials = 'ምንም ቁሳቁስ የለም';
+  static const noMaterialsHint = '+ ተጭነው ቁሳቁስ ይመዝግቡ';
+  static const materialRegistered = 'ቁሳቁስ በተሳካ ሁኔታ ተመዝግቧል';
+  static const materialUpdated = 'ቁሳቁስ በተሳካ ሁኔታ ተዘምኗል';
+  static const deleteMaterial = 'ቁሳቁስ ሰርዝ';
+  static const deleteMaterialConfirm = 'ይህን ቁሳቁስ ከካታሎጉ ያስወግዱ?';
 }
