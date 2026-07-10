@@ -12,8 +12,11 @@ class EmployeeDetailScreen extends StatefulWidget {
   final Employee employee;
   final LocaleProvider locale;
 
-  const EmployeeDetailScreen(
-      {super.key, required this.employee, required this.locale});
+  const EmployeeDetailScreen({
+    super.key,
+    required this.employee,
+    required this.locale,
+  });
 
   @override
   State<EmployeeDetailScreen> createState() => _EmployeeDetailScreenState();
@@ -49,11 +52,13 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
         content: Text('${s.returnAll}?'),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(s.cancel)),
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(s.cancel),
+          ),
           ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(s.returnAll)),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(s.returnAll),
+          ),
         ],
       ),
     );
@@ -65,10 +70,10 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
 
   Future<void> _load() async {
     setState(() => _loading = true);
-    final borrows =
-        await BorrowDao.instance.getByEmployee(widget.employee.id!);
-    final history =
-        await BorrowDao.instance.getHistory(employeeId: widget.employee.id!);
+    final borrows = await BorrowDao.instance.getByEmployee(widget.employee.id!);
+    final history = await BorrowDao.instance.getHistory(
+      employeeId: widget.employee.id!,
+    );
     setState(() {
       _borrows = borrows;
       _history = history;
@@ -88,15 +93,23 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(b.itemName,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 15)),
+              Text(
+                b.itemName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('${s.borrowedQty}: ${b.quantity}',
-                  style: const TextStyle(color: AppColors.textMuted)),
+              Text(
+                '${s.borrowedQty}: ${b.quantity}',
+                style: const TextStyle(color: AppColors.textMuted),
+              ),
               const SizedBox(height: 16),
-              Text(s.qtyToReturn,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              Text(
+                s.qtyToReturn,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -110,9 +123,13 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
                   Container(
                     width: 56,
                     alignment: Alignment.center,
-                    child: Text('$returnQty',
-                        style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w700)),
+                    child: Text(
+                      '$returnQty',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                   _DlgBtn(
                     icon: Icons.add,
@@ -124,16 +141,21 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
               ),
               const SizedBox(height: 4),
               Center(
-                child: Text('${s.maxIs}: ${b.quantity}',
-                    style: const TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                child: Text(
+                  '${s.maxIs}: ${b.quantity}',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textMuted,
+                  ),
+                ),
               ),
             ],
           ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: Text(s.cancel)),
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(s.cancel),
+            ),
             ElevatedButton(
               onPressed: () async {
                 Navigator.pop(ctx);
@@ -166,12 +188,18 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(b.itemName,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 15)),
+              Text(
+                b.itemName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
               const SizedBox(height: 16),
-              Text(s.quantity,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              Text(
+                s.quantity,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -185,22 +213,24 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
                   Container(
                     width: 56,
                     alignment: Alignment.center,
-                    child: Text('$qty',
-                        style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w700)),
+                    child: Text(
+                      '$qty',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
-                  _DlgBtn(
-                    icon: Icons.add,
-                    onTap: () => setDlg(() => qty++),
-                  ),
+                  _DlgBtn(icon: Icons.add, onTap: () => setDlg(() => qty++)),
                 ],
               ),
             ],
           ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: Text(s.cancel)),
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(s.cancel),
+            ),
             ElevatedButton(
               onPressed: () async {
                 Navigator.pop(ctx);
@@ -224,12 +254,13 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
         content: Text(s.deleteBorrowConfirm),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(s.cancel)),
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(s.cancel),
+          ),
           TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(s.delete,
-                  style: const TextStyle(color: Colors.red))),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(s.delete, style: const TextStyle(color: Colors.red)),
+          ),
         ],
       ),
     );
@@ -269,12 +300,14 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen>
             tooltip: s.borrowEquipment,
             onPressed: () async {
               await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => AddBorrowScreen(
-                            locale: widget.locale,
-                            preselectedEmployeeId: emp.id,
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AddBorrowScreen(
+                    locale: widget.locale,
+                    preselectedEmployeeId: emp.id,
+                  ),
+                ),
+              );
               _load();
             },
           ),
@@ -324,14 +357,20 @@ class _BorrowsTab extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle_outline,
-                size: 56, color: AppColors.success),
+            const Icon(
+              Icons.check_circle_outline,
+              size: 56,
+              color: AppColors.success,
+            ),
             const SizedBox(height: 12),
-            Text(s.noActiveborrows,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textMuted)),
+            Text(
+              s.noActiveborrows,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textMuted,
+              ),
+            ),
           ],
         ),
       );
@@ -343,8 +382,9 @@ class _BorrowsTab extends StatelessWidget {
       itemBuilder: (_, i) {
         final b = borrows[i];
         final dt = DateTime.tryParse(b.borrowedAt);
-        final dateStr =
-            dt != null ? DateFormat('MMM d, y').format(dt) : b.borrowedAt;
+        final dateStr = dt != null
+            ? DateFormat('MMM d, y').format(dt)
+            : b.borrowedAt;
 
         return Card(
           child: Padding(
@@ -354,19 +394,27 @@ class _BorrowsTab extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.hardware_outlined,
-                        size: 18, color: AppColors.primary),
+                    const Icon(
+                      Icons.hardware_outlined,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(b.itemName,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textDark)),
+                      child: Text(
+                        b.itemName,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textDark,
+                        ),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.accent.withOpacity(0.12),
                         borderRadius: BorderRadius.circular(999),
@@ -374,32 +422,50 @@ class _BorrowsTab extends StatelessWidget {
                       child: Text(
                         '× ${b.quantity}',
                         style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.accent),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.accent,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
-                Text('${s.borrowedOn}: $dateStr',
-                    style: const TextStyle(
-                        fontSize: 12, color: AppColors.textMuted)),
+                Text(
+                  '${s.borrowedOn}: $dateStr',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textMuted,
+                  ),
+                ),
                 const SizedBox(height: 12),
+                // inside the Card, after Text('${s.borrowedOn}: $dateStr', ...)
+                if (b.notes != null && b.notes!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      '📝 ${b.notes}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textMuted,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
                 Row(
                   children: [
                     Expanded(
                       child: OutlinedButton.icon(
                         onPressed: () => onReturn(b),
                         icon: const Icon(Icons.undo, size: 15),
-                        label: Text(s.returnItems,
-                            style: const TextStyle(fontSize: 12)),
+                        label: Text(
+                          s.returnItems,
+                          style: const TextStyle(fontSize: 12),
+                        ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.success,
-                          side: const BorderSide(
-                              color: AppColors.success),
-                          padding:
-                              const EdgeInsets.symmetric(vertical: 8),
+                          side: const BorderSide(color: AppColors.success),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                         ),
                       ),
                     ),
@@ -410,7 +476,9 @@ class _BorrowsTab extends StatelessWidget {
                         foregroundColor: AppColors.primary,
                         side: const BorderSide(color: AppColors.primary),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 12),
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
                       ),
                       child: const Icon(Icons.edit_outlined, size: 16),
                     ),
@@ -421,7 +489,9 @@ class _BorrowsTab extends StatelessWidget {
                         foregroundColor: Colors.red,
                         side: const BorderSide(color: Colors.red),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 12),
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
                       ),
                       child: const Icon(Icons.delete_outline, size: 16),
                     ),
@@ -449,8 +519,10 @@ class _HistoryTab extends StatelessWidget {
     final s = locale.s;
     if (history.isEmpty) {
       return Center(
-        child: Text(s.noHistory,
-            style: const TextStyle(color: AppColors.textMuted)),
+        child: Text(
+          s.noHistory,
+          style: const TextStyle(color: AppColors.textMuted),
+        ),
       );
     }
 
@@ -477,11 +549,35 @@ class _HistoryTab extends StatelessWidget {
                 size: 18,
               ),
             ),
-            title: Text(h.itemName,
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-            subtitle: Text(dateStr,
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textMuted)),
+            title: Text(
+              h.itemName,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  dateStr,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+                if (h.notes != null && h.notes!.isNotEmpty)
+                  Text(
+                    '📝 ${h.notes}',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textMuted,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+              ],
+            ),
+            // subtitle: Text(
+            //   dateStr,
+            //   style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
+            // ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -489,18 +585,16 @@ class _HistoryTab extends StatelessWidget {
                 Text(
                   '× ${h.quantity}',
                   style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: isBorrow
-                          ? AppColors.accent
-                          : AppColors.success),
+                    fontWeight: FontWeight.w700,
+                    color: isBorrow ? AppColors.accent : AppColors.success,
+                  ),
                 ),
                 Text(
                   isBorrow ? s.borrowed : s.returned,
                   style: TextStyle(
-                      fontSize: 11,
-                      color: isBorrow
-                          ? AppColors.accent
-                          : AppColors.success),
+                    fontSize: 11,
+                    color: isBorrow ? AppColors.accent : AppColors.success,
+                  ),
                 ),
               ],
             ),
@@ -518,16 +612,16 @@ class _DlgBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: AppColors.bg,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Icon(icon, size: 18),
-        ),
-      );
+    onTap: onTap,
+    child: Container(
+      width: 36,
+      height: 36,
+      decoration: BoxDecoration(
+        color: AppColors.bg,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Icon(icon, size: 18),
+    ),
+  );
 }

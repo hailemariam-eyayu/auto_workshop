@@ -37,11 +37,18 @@ class _AddBorrowScreenState extends State<AddBorrowScreen> {
   final Map<int, _SelectedItem> _selected = {};
   bool _loading = true;
   bool _saving = false;
+  final TextEditingController _notesCtrl = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _load();
+  }
+
+  @override
+  void dispose() {
+    _notesCtrl.dispose();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -75,11 +82,13 @@ class _AddBorrowScreenState extends State<AddBorrowScreen> {
   Future<void> _save() async {
     if (!_canSave) return;
     setState(() => _saving = true);
+    final notes = _notesCtrl.text.trim();
     for (final sel in _selected.values) {
       await BorrowDao.instance.upsertBorrow(
         employeeId: _selectedEmployee!.id!,
         itemId: sel.item.id!,
         quantity: sel.quantity,
+        notes: notes.isEmpty ? null : notes,
       );
     }
     if (mounted) Navigator.pop(context);
@@ -208,6 +217,63 @@ class _AddBorrowScreenState extends State<AddBorrowScreen> {
                       onChanged: (e) =>
                           setState(() => _selectedEmployee = e),
                     ),
+                  ),
+                ),
+                const Divider(height: 1),
+
+                // ── Notes field ───────────────────────────────────────
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.note_outlined,
+                              size: 15, color: AppColors.textMuted),
+                          const SizedBox(width: 6),
+                          Text(
+                            '${s.addNotes} (${s.optional})',
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textMuted),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: _notesCtrl,
+                        minLines: 2,
+                        maxLines: 4,
+                        style: const TextStyle(fontSize: 13),
+                        decoration: InputDecoration(
+                          hintText: s.globalNotesHint,
+                          hintStyle: const TextStyle(
+                              fontSize: 12, color: AppColors.textMuted),
+                          filled: true,
+                          fillColor: AppColors.bg,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                const BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                const BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                const BorderSide(color: AppColors.primary),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const Divider(height: 1),

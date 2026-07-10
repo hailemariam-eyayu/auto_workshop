@@ -57,16 +57,13 @@ class _BorrowScreenState extends State<BorrowScreen> {
         .toList();
     if (_search.isEmpty) return withBorrows;
     final q = _search.toLowerCase();
-    return withBorrows
-        .where((e) => e.name.toLowerCase().contains(q))
-        .toList();
+    return withBorrows.where((e) => e.name.toLowerCase().contains(q)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final s = widget.locale.s;
-    final totalBorrowed =
-        _borrows.fold<int>(0, (sum, b) => sum + b.quantity);
+    final totalBorrowed = _borrows.fold<int>(0, (sum, b) => sum + b.quantity);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -74,12 +71,14 @@ class _BorrowScreenState extends State<BorrowScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(s.equipmentBorrow,
-                style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w700)),
-            Text('$totalBorrowed ${s.borrowed}',
-                style: const TextStyle(
-                    fontSize: 12, color: Color(0xFF94A3B8))),
+            Text(
+              s.equipmentBorrow,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
+            Text(
+              '$totalBorrowed ${s.borrowed}',
+              style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
+            ),
           ],
         ),
         actions: [
@@ -90,16 +89,17 @@ class _BorrowScreenState extends State<BorrowScreen> {
         backgroundColor: AppColors.accent,
         onPressed: () async {
           if (_employees.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(s.noEmployees)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(s.noEmployees)));
             return;
           }
           await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) =>
-                      AddBorrowScreen(locale: widget.locale)));
+            context,
+            MaterialPageRoute(
+              builder: (_) => AddBorrowScreen(locale: widget.locale),
+            ),
+          );
           _load();
         },
         child: const Icon(Icons.add, color: Colors.white),
@@ -113,15 +113,18 @@ class _BorrowScreenState extends State<BorrowScreen> {
               onChanged: (v) => setState(() => _search = v),
               decoration: InputDecoration(
                 hintText: '${s.search}...',
-                prefixIcon:
-                    const Icon(Icons.search, color: AppColors.textMuted),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.textMuted,
+                ),
                 suffixIcon: _search.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchCtrl.clear();
                           setState(() => _search = '');
-                        })
+                        },
+                      )
                     : null,
                 filled: true,
                 fillColor: Colors.white,
@@ -132,37 +135,39 @@ class _BorrowScreenState extends State<BorrowScreen> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _filteredEmployees.isEmpty
-                    ? EmptyState(
-                        icon: Icons.hardware_outlined,
-                        title: s.noBorrows,
-                        subtitle: s.noBorrowsHint)
-                    : RefreshIndicator(
-                        onRefresh: _load,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(bottom: 80, top: 8),
-                          itemCount: _filteredEmployees.length,
-                          itemBuilder: (_, i) {
-                            final emp = _filteredEmployees[i];
-                            final items = _grouped[emp.id] ?? [];
-                            return _EmployeeBorrowCard(
-                              employee: emp,
-                              borrows: items,
-                              locale: widget.locale,
-                              onTap: () async {
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            EmployeeDetailScreen(
-                                              employee: emp,
-                                              locale: widget.locale,
-                                            )));
-                                _load();
-                              },
+                ? EmptyState(
+                    icon: Icons.hardware_outlined,
+                    title: s.noBorrows,
+                    subtitle: s.noBorrowsHint,
+                  )
+                : RefreshIndicator(
+                    onRefresh: _load,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 80, top: 8),
+                      itemCount: _filteredEmployees.length,
+                      itemBuilder: (_, i) {
+                        final emp = _filteredEmployees[i];
+                        final items = _grouped[emp.id] ?? [];
+                        return _EmployeeBorrowCard(
+                          employee: emp,
+                          borrows: items,
+                          locale: widget.locale,
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => EmployeeDetailScreen(
+                                  employee: emp,
+                                  locale: widget.locale,
+                                ),
+                              ),
                             );
+                            _load();
                           },
-                        ),
-                      ),
+                        );
+                      },
+                    ),
+                  ),
           ),
         ],
       ),
@@ -206,21 +211,27 @@ class _EmployeeBorrowCard extends StatelessWidget {
                     child: Text(
                       employee.name[0].toUpperCase(),
                       style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary),
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text(employee.name,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textDark)),
+                    child: Text(
+                      employee.name,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textDark,
+                      ),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 3),
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accent.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(999),
@@ -228,9 +239,10 @@ class _EmployeeBorrowCard extends StatelessWidget {
                     child: Text(
                       '$totalQty ${s.items}',
                       style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.accent),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.accent,
+                      ),
                     ),
                   ),
                 ],
@@ -238,45 +250,107 @@ class _EmployeeBorrowCard extends StatelessWidget {
               const SizedBox(height: 10),
               const Divider(height: 1),
               const SizedBox(height: 8),
+
               // Item rows
-              ...borrows.map((b) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.hardware_outlined,
-                            size: 14, color: AppColors.textMuted),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Text(b.itemName,
-                              style: const TextStyle(
-                                  fontSize: 13,
-                                  color: AppColors.textDark)),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(6),
+              // ...borrows.map((b) => Padding(
+              //       padding: const EdgeInsets.symmetric(vertical: 3),
+              //       child: Row(
+              //         children: [
+              //           const Icon(Icons.hardware_outlined,
+              //               size: 14, color: AppColors.textMuted),
+              //           const SizedBox(width: 6),
+              //           Expanded(
+              //             child: Text(b.itemName,
+              //                 style: const TextStyle(
+              //                     fontSize: 13,
+              //                     color: AppColors.textDark)),
+              //           ),
+              //           Container(
+              //             padding: const EdgeInsets.symmetric(
+              //                 horizontal: 8, vertical: 2),
+              //             decoration: BoxDecoration(
+              //               color: AppColors.primary.withOpacity(0.08),
+              //               borderRadius: BorderRadius.circular(6),
+              //             ),
+              //             child: Text(
+              //               '× ${b.quantity}',
+              //               style: const TextStyle(
+              //                   fontSize: 12,
+              //                   fontWeight: FontWeight.w700,
+              //                   color: AppColors.primary),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     )),
+              ...borrows.map(
+                (b) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.hardware_outlined,
+                            size: 14,
+                            color: AppColors.textMuted,
                           ),
-                          child: Text(
-                            '× ${b.quantity}',
-                            style: const TextStyle(
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              b.itemName,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: AppColors.textDark,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              '× ${b.quantity}',
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.primary),
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (b.notes != null && b.notes!.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, top: 2),
+                          child: Text(
+                            '📝 ${b.notes}',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textMuted,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  )),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(height: 6),
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
                   '${s.borrowed}: ${DateFormat('MMM d, y').format(DateTime.tryParse(borrows.first.borrowedAt) ?? DateTime.now())}',
                   style: const TextStyle(
-                      fontSize: 11, color: AppColors.textMuted),
+                    fontSize: 11,
+                    color: AppColors.textMuted,
+                  ),
                 ),
               ),
             ],
